@@ -146,9 +146,9 @@ else:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'automail',
+        'USER': 'automailuser',
+        'PASSWORD': 'automailpass',
         'HOST': 'localhost',
         'PORT': '',
     }
