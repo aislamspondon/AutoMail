@@ -7,7 +7,7 @@ class YCloudAPI:
 
     def mail_api(self, sendermail, receiver, subject, content):
         payload = {
-        "from": f"{sendermail}@billboss.online",
+        "from": f"{sendermail}",
         "to":  receiver,
         "subject": subject,
         "content": content,
