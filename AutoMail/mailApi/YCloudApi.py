@@ -1,11 +1,11 @@
 import requests
 
-API_KEY = "fb627db9268792b4117e101b8a6ba398"
 API_URL = "https://api.ycloud.com/v2/emails"
 
 class YCloudAPI:
 
-    def mail_api(self, sendermail, receiver, subject, content):
+    def mail_api(self,api, sendermail, receiver, subject, content):
+        API_KEY = api
         payload = {
         "from": f"{sendermail}",
         "to":  receiver,

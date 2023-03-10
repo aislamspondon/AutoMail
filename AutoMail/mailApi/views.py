@@ -1,15 +1,16 @@
 # from django.shortcuts import render
-from authentication.serializers import UserSerializerWithToken
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-from mailApi.excelToJson import convertJson
-from mailApi.models import MailInfo
-from mailApi.serializers import MailSerializer
-from mailApi.YCloudApi import YCloudAPI
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+
+from authentication.serializers import UserSerializerWithToken
+from mailApi.excelToJson import convertJson
+from mailApi.models import MailInfo
+from mailApi.serializers import MailSerializer
+from mailApi.YCloudApi import YCloudAPI
 
 # Create your views here.
 
@@ -19,14 +20,15 @@ def intro(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 def mail_send(request):
     data = request.data
+    api = data['api']
     sender_mail = data['sender_mail']
     subject = data['subject']
     content = data['content']
     file = request.FILES.get('excel_file')
-    # print(sender_mail, subject, content, file)
+    print(api, sender_mail, subject, content, file)
     MailInfo.objects.create(
         sender_mail = sender_mail,
         subject = subject,
@@ -41,7 +43,7 @@ def mail_send(request):
         address = f"{i['address']}, {i['city']}  {i['state']}"
         content = content.replace("NAMEOF", name)
         content = content.replace("ADDRESSOF", address)
-        success_msg = cloud_api.mail_api(sendermail=sender_mail, receiver=client_mail, subject=subject, content=content)
+        success_msg = cloud_api.mail_api(api=api, sendermail=sender_mail, receiver=client_mail, subject=subject, content=content)
         if not success_msg:
             missing.append(client_mail)
 
